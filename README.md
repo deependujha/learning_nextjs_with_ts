@@ -1,38 +1,84 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Learning typescript 😀
 
-## Getting Started
+## ~> some important points
 
-First, run the development server:
+- Use the **“type”** keyword, when **building applications**, & **“interface”** keyword when **building libraries**.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+---
+
+``` sh
+- The type of a react component is: **React.ReactNode**
+
+- The type of "css styles" as props - **React.CSSProperties**
+
+- The type of "button onClick event" as props - **React.MouseEvent<HTMLButtonElement>**
+
+- The type of "input field event" as props - **React.ChangeEvent<HTMLInputElement>**
+
+```
+---
+
+## Hooks in Ts
+
+### useState hook
+
+- If the useState variable data type is not changing, then there's no difference.
+- If the useState's variable data type is changing (from null to another data type), we need to use **<>** syntax.
+
+``` js
+type User = {
+    name: string
+    email: string
+}
+
+const [myUser, setMyUser] = useState <User | null>(null);
+// This lets myUser to have values either of type User or null.
+
+// access it like this:
+console.log(myUser?.name)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- If you don't want it, and you're sure that myUser will have a value when being rendered (you might do it in useEffect), you can use **type assertion**.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+``` js
+type User = {
+    name: string
+    email: string
+}
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+const [myUser, setMyUser] = useState( {} as User);
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+// access it directly:
+console.log(myUser.name)
+```
+  
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Type assertion
 
-## Learn More
+- TypeScript allows you to override its inferred and analyzed view of types in any way you want to. This is done by a mechanism called "type assertion". 
+- TypeScript's type assertion is purely you telling the compiler that you know about the types better than it does, and that it should not second guess you.
+- A common use case for type assertion is when you are porting over code from JavaScript to TypeScript. 
 
-To learn more about Next.js, take a look at the following resources:
+- Type assertion has two forms:
+- **angle-bracket syntax**
+- **as syntax**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+``` js
+let myVar;
+myVar = "hello";
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+// angle-bracket syntax
+(<string>myVar).length;
 
-## Deploy on Vercel
+// as syntax
+(myVar as string).length;
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Type Assertion vs. Casting
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- The reason why it's not called "type casting" is that casting generally implies some sort of runtime support
+  
+- However **type assertions are purely a compile-time construct and a way for you to provide hints to the compiler on how you want your code to be analyzed**
+
+---
